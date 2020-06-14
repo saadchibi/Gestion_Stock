@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Gestion_Stock.Models.Categorie>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container">
+
+        <p>
+            <a class="btn" asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.nom)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody >
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nom)
+                        </td>
+                        <td class="float-right">
+                            <a asp-action="Edit" asp-route-id="@item.id"> <img src="~/images/icons/edit.png" /> </a> |
+                            <a asp-action="Details" asp-route-id="@item.id"><img src="~/images/icons/infos.png" /></a> |
+                            <a asp-action="Delete" asp-route-id="@item.id"><img src="~/images/icons/trash.png" /></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        </div>

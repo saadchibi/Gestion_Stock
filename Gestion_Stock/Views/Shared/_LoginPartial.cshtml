@@ -1,0 +1,53 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        if (User.IsInRole(Gestion_Stock.Utility.SD.Admin))
+        {
+            <li class="nav-item dropdown text-white-50">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Gestion de Magasin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                    <a class="dropdown-item" asp-action="Index" asp-controller="Categorie" asp-area="Admin">Catégories</a>
+                    <a class="dropdown-item" asp-action="Index" asp-controller="Produits" asp-area="Admin">Produits</a>
+                    <a class="dropdown-item" asp-action="Index" asp-controller="Utilisateur" asp-area="Admin">Employee</a>
+                </div>
+            </li>
+        }
+        if (User.IsInRole(Gestion_Stock.Utility.SD.Caissier) || User.IsInRole(Gestion_Stock.Utility.SD.Admin))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ReptureStock" asp-controller="Acceuil" asp-area="Caissier">Stock Epuisé <span class="text-success"><i class="fas fa-caret-square-up"></i></span></a>
+            </li>
+
+            if (User.IsInRole(Gestion_Stock.Utility.SD.Caissier))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-controller="Produits" asp-area="Caissier">Produits</a>
+                </li>
+            }
+        }
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

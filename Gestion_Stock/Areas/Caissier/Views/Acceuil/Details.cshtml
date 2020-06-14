@@ -1,0 +1,98 @@
+﻿@model Gestion_Stock.Models.ShoppingCart
+@using Gestion_Stock.Extensions
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="text-info">Item Details</h2>
+<hr />
+<div class="container">
+    <form method="post" asp-action="Details">
+        <div class="backgroundWhite row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-10 shadow p-3 mb-5 bg-white rounded">
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label asp-for="Produit.nom" class="text-info font-weight-bold"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Produit.nom" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label asp-for="Produit.description" class="text-info font-weight-bold"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="border p-2">
+                            @Html.Raw(Model.Produit.description)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label asp-for="Produit.CategorieId" class="text-info font-weight-bold"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Produit.Categorie.nom" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row d-none">
+                    <div class="col-md-4">
+                        <label asp-for="Produit.livre" class="text-info font-weight-bold"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Produit.livre" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label asp-for="Produit.marque" class="text-info font-weight-bold"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Produit.marque" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label asp-for="Produit.qte" class="text-info font-weight-bold"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Produit.qte" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label asp-for="Produit.dateStock" class="text-info font-weight-bold"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Produit.dateStock" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label asp-for="Count" class="text-info font-weight-bold"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Count" class="form-control" max="@Model.Produit.qte" />
+                        <span asp-validation-for="Count" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" value="Add to Cart" class="btn btn-primary form-control">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input asp-for="MenuItemId" hidden />
+    </form>
+</div>
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

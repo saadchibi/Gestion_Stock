@@ -1,0 +1,169 @@
+﻿@model Gestion_Stock.Models.ViewModels.OrderListViewModel
+@using Gestion_Stock.Utility
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br /><br />
+<div class="border backgroundWhite">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info"> Past Order List</h2>
+        </div>
+    </div>
+    <br />
+    <div>
+        @if (Model.Orders.Count() > 0)
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        @Html.DisplayNameFor(m => m.Orders[0].OrderHeader.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Orders[0].OrderHeader.PickupName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Orders[0].OrderHeader.Utilisateur.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Orders[0].OrderHeader.PickUpTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Orders[0].OrderHeader.OrderTotal)
+                    </th>
+                    <th>
+                        Total Items
+                    </th>
+                    <th></th>
+
+                </tr>
+                @foreach (var item in Model.Orders)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.PickupName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.Utilisateur.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.PickUpTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderHeader.OrderTotal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.OrderDetails.Count)
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-success anchorDetail" data-id="@item.OrderHeader.Id" data-toggle="modal">
+                                <i class="far fa-list-alt"></i> Details
+                            </button>
+                            @if (item.OrderHeader.Status == SD.StatusSubmitted || item.OrderHeader.Status == SD.StatusInProcess || item.OrderHeader.Status == SD.StatusCompleted || item.OrderHeader.Status == SD.StatusReady)
+                            {
+                                <button type="button" class="btn btn-info btnOrderStatus" data-id="@item.OrderHeader.Id" data-toggle="modal">
+                                    <i class="far fa-clock"></i> Status
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>           
+            <br />
+        }
+        else
+        {
+            <p>No category exists...</p>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog-centered modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-light justify-content-center">
+                <h5 class="modal-title">Order Details</h5>
+            </div>
+            <div class="modal-body justify-content-center" id="myModalContent">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="width:20%" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myOrderStatus" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-light justify-content-center">
+                <h5 class="modal-title">Order Status </h5>
+            </div>
+            <div class="modal-body justify-content-center" id='myOrderStatusContent'>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="width:20%" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        var PostBackURL = '/Caissier/Order/GetOrderDetails';
+        var OrderStatusURL = '/Caissier/Order/GetOrderStatus';
+
+        $(function () {
+            $(".anchorDetail").click(function () {
+
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+
+                $.ajax({
+                    type: "GET",
+                    url: PostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    cache: false,
+                    dataType: "html",
+                    success: function (data) {
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal('show');
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed");
+                    }
+                });
+
+            });
+
+            $(".btnOrderStatus").click(function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                $.ajax({
+                    type: "GET",
+                    url: OrderStatusURL,
+                    contentType: "text/html; charset=utf-8",
+                    data: { "Id": id },
+                    cache: false,
+                    dataType: "html",
+                    success: function (data) {
+                        $('#myOrderStatusContent').html(data);
+                        $('#myOrderStatus').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+        });
+    </script>
+}

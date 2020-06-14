@@ -1,0 +1,83 @@
+﻿@model Gestion_Stock.Models.Produit
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details Produit</h1>
+
+<div class="container">
+    <hr />
+
+    <table class="table shadow-lg p-3 mb-5 bg-white rounded">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nom)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.nom)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Categorie)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.Categorie.nom)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.marque)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.marque)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.qte)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.qte)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.dateStock)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.dateStock)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.livre)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.livre)
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <td>
+                @Html.DisplayFor(model => model.description)
+            </td>
+        </tr>
+
+
+
+
+    </table>
+
+    <div>
+        <a class="btn" asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+
+</div>

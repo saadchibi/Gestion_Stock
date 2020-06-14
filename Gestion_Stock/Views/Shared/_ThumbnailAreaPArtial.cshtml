@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Produit>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+        @if (Model.Count() > 0)
+        {
+
+            <div class="col-12 post @Model.FirstOrDefault().Categorie.nom.Replace(" ",string.Empty) menu-restaurant">
+                <div class="row">
+                    <h3 class="text-black-50"> @Model.FirstOrDefault().Categorie.nom </h3>
+                </div>
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-4 card text-center">
+                            <div class="card-header">
+                                @item.marque
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@item.nom</h5>
+                                <p> @Html.Raw(item.description)</p>
+                                <a asp-action="Details" class="btn btn-success btn-lg" asp-route-id="@item.id">Details</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                @item.dateStock
+                            </div>
+                        </div>
+                        
+                    }
+                </div>
+                <div class="p-4"></div>
+            </div>
+        }
+

@@ -1,0 +1,81 @@
+﻿@model List<Gestion_Stock.Models.ViewModels.OrderDetailsViewModel>
+@using Gestion_Stock.Utility
+@{
+    ViewData["Title"] = "ManageOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-info">Manage Order's</h2>
+<div class="container ">
+    <form method="post">
+        <br />
+        @if (Model.Count > 0)
+        {
+            <div class="container row shadow p-3 mb-5 bg-white rounded">
+                @foreach (var item in Model)
+                {
+                    <div class="col-12 pb-3 pt-3">
+                        <div class="backgroundWhiteBorder10Padding">
+                            <div class="row">
+                                <div class="col-lg-4 col-12">
+                                    Order Number : @item.OrderHeader.Id
+                                    <ul class="text-info">
+                                        @foreach (var details in item.OrderDetails)
+                                        {
+                                            <li>@details.Name x @details.Count</li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 col-12 pb-2">
+                                    <div class="input-group pb-2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Time</span>
+                                        </div>
+                                        <input type="text" class="border rounded form-control" readonly value="@item.OrderHeader.PickUpTime" />
+                                    </div>
+                                    @{
+                                        var comments = item.OrderHeader.Comments;
+                                        if (comments == null || comments.Trim().Length == 0)
+                                        {
+                                            item.OrderHeader.Comments = "No Instructions";
+                                        }
+
+                                    }
+                                    <textarea asp-for="@item.OrderHeader.Comments" readonly class="rounded border form-control" style="width:100%;height:75px;"></textarea>
+                                </div>
+                                <div class="col-lg-4 col-12 d-flex align-content-center">
+                                    @if (item.OrderHeader.Status.Equals(SD.StatusSubmitted))
+                                    {
+                                        <div class="col-12">
+                                            <button type="submit" asp-action="OrderPrepare" asp-route-OrderId="@item.OrderHeader.Id" class="btn btn-info form-control mb-3">
+                                                <i class="fas fa-check"></i> &nbsp; Preparer Commande
+                                            </button>
+                                            <button type="submit" asp-action="OrderCancel" asp-route-OrderId="@item.OrderHeader.Id" class="btn btn-danger form-control mb-3">
+                                                <i class="fas fa-times"></i> &nbsp; Annuler Commande
+                                            </button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @if (item.OrderHeader.Status.Equals(SD.StatusInProcess))
+                                        {
+                                            <div class="col-12">
+                                                <button type="submit" asp-action="OrderReady" asp-route-OrderId="@item.OrderHeader.Id" class="btn btn-success form-control mb-3">
+                                                    <i class="fas fa-flag-checkered"></i> &nbsp; Commande Prete
+                                                </button>
+                                                <button type="submit" asp-action="OrderCancel" asp-route-OrderId="@item.OrderHeader.Id" class="btn btn-danger form-control mb-3">
+                                                    <i class="fas fa-times"></i> &nbsp; Annuler Commande
+                                                </button>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </form>
+
+</div>

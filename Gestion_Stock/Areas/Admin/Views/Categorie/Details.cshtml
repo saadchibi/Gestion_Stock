@@ -1,0 +1,26 @@
+﻿@model Gestion_Stock.Models.Categorie
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h1>Details Categorie</h1>
+
+    <div class="container shadow-lg p-3 mb-5 bg-white rounded">
+        <hr />
+
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.nom)
+            </dt>
+            <dd class="col-sm-10 float-right">
+                @Html.DisplayFor(model => model.nom)
+            </dd>
+        </dl>
+        <div>
+            <a asp-action="Edit" class="btn" asp-route-id="@Model.id">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+

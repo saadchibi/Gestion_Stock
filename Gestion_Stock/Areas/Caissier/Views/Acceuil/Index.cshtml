@@ -1,0 +1,36 @@
+﻿@model Gestion_Stock.Models.ViewModels.IndexViewModel
+<br />
+<br />
+<br />
+<div class="backgroundWhite container">
+    <div id="menu-filters" class="menu-filter-list list-inline text-center">
+        <span class="active btn btn-secondary ml-1 mr-1" data-filter=".menu-restaurant">Show All</span>
+        @foreach (var item in Model.Category)
+        {
+            <span class="ml-1 mr-1" data-filter=".@item.nom.Replace(" ",string.Empty)">@item.nom</span>
+        }
+    </div>
+    @foreach (var category in Model.Category)
+    {
+        <div class="row" id="menu-wrapper">
+            <partial name="_ThumbnailAreaPartial" model="@Model.MenuItem.Where(u=>u.Categorie.nom.Equals(category.nom))" />
+        </div>
+    }
+</div>
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <script>var posts = $('.post');
+        (function ($) {
+            $("#menu-filters span").click(function () {
+                $("#menu-filters span").removeClass('active btn btn-secondary');
+                $(this).addClass('active btn btn-secondary');
+                var selectedFilter = $(this).data("filter");
+                $(".menu-restaurant").fadeOut();
+                setTimeout(function () {
+                    $(selectedFilter).slideDown();
+                }, 300);
+            });
+        })(jQuery);</script>
+}
